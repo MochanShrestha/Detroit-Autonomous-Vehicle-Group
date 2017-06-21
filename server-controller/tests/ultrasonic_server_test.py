@@ -25,7 +25,7 @@ class SensorStreamingTest(object):
     def streaming(self):
 
         try:
-            print ("Connection from: ", self.client_address)
+            print("Connection from: ", self.client_address)
             start = time.time()
 
             while True:
