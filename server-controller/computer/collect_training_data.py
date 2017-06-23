@@ -40,7 +40,7 @@ class CollectTrainingData(object):
         total_frame = 0
 
         # collect images for training
-        print 'Start collecting images...'
+        print ('Start collecting images...')
         e1 = cv2.getTickCount()
         image_array = np.zeros((1, 38400))
         label_array = np.zeros((1, 4), 'float')
@@ -131,7 +131,7 @@ class CollectTrainingData(object):
                                 self.ser.write(chr(4))
 
                             elif key_input[pygame.K_x] or key_input[pygame.K_q]:
-                                print 'exit'
+                                print ('exit')
                                 self.send_inst = False
                                 self.ser.write(chr(0))
                                 break
@@ -156,13 +156,13 @@ class CollectTrainingData(object):
             e2 = cv2.getTickCount()
             # calculate streaming duration
             time0 = (e2 - e1) / cv2.getTickFrequency()
-            print 'Streaming duration:', time0
+            print ('Streaming duration:', time0)
 
             print(train.shape)
             print(train_labels.shape)
-            print 'Total frame:', total_frame
-            print 'Saved frame:', saved_frame
-            print 'Dropped frame', total_frame - saved_frame
+            print ('Total frame:', total_frame)
+            print ('Saved frame:', saved_frame)
+            print ('Dropped frame', total_frame - saved_frame)
 
         finally:
             self.connection.close()
