@@ -41,6 +41,9 @@ nc = nclib.Netcat(listen=('', 2222))
 #socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #socket.connect((self.hostname, self.port))
 
+# Setup the file that we are going to write to
+videoLog = open("log.h264", "wb")
+
 def write_data():
     nwritten = 0
     while(1):
@@ -55,6 +58,9 @@ def write_data():
         #ff.process.stdin.flush()
         #nwritten = nwritten + len(fdata)
         #print("Wrote some data: " + str(nwritten))
+
+        # Write the video data to the log file
+        videoLog.write(fdata)
 
 global mutex
 global raw_image

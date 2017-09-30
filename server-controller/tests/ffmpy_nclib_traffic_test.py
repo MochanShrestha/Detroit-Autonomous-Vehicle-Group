@@ -12,6 +12,8 @@ import socket
 import queue
 from pygame.locals import *
 
+import perception_pipeline as percept
+
 pygame.init()
 width = 1280
 height = 720
@@ -125,6 +127,11 @@ while not done:
     #if (ret == False):
     #    break
     #display_image = cv2.resize(img, (width, height))
+
+    x,y,w,h = percept.filter_red_box(img)
+    cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
+
+    img = percept.filter_red_rgbimage(img)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

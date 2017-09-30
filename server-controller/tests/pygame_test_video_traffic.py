@@ -1,7 +1,10 @@
 
 import pygame
 import cv2
+import numpy as np
 #from pygame.locals import *
+
+import perception_pipeline as percept
 
 pygame.init()
 width = 1920
@@ -31,6 +34,8 @@ while not done:
         break
     display_image = cv2.resize(img, (width, height))
 
-    screen.blit(pygame.image.frombuffer(display_image.tostring(), display_image.shape[1::-1], "RGB"), (0,0))
+    display_image2 = percept.filter_red_rgbimage(display_image)
+
+    screen.blit(pygame.image.frombuffer(display_image2.tostring(), display_image2.shape[1::-1], "RGB"), (0,0))
 
     pygame.display.flip()
