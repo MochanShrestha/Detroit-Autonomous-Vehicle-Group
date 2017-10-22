@@ -69,7 +69,7 @@ def read_data():
     global raw_image
     global q
     while(1):
-        print("\t\tTrying to read some data")
+        # print("\t\tTrying to read some data")
         _raw_image = ff.process.stdout.read(1920 * 1080 * 3)
         #mutex.acquire()
         #raw_image = _raw_image
@@ -83,14 +83,9 @@ def read_data():
 
 threading._start_new_thread(write_data, ())
 
-for i in range(125):
-    raw_image = ff.process.stdout.read(1920 * 1080 * 3)
-
 threading._start_new_thread(read_data, ())
 
 done = False
-nread = 0
-image = numpy.zeros((1920,1080,3), dtype='uint8')
 while not done:
     #for i in range(10):
     #    mutex.acquite()
@@ -102,6 +97,10 @@ while not done:
     #mutex.acquire()
     #if len(raw_image) > 0:
         #print("GOt image")
+
+    if q.empty():
+        time.sleep(0.05)
+        continue
 
     raw_image = q.get()
     if len(raw_image) > 0:
