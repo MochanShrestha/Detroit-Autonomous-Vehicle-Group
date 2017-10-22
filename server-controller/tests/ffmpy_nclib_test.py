@@ -13,8 +13,8 @@ import queue
 from pygame.locals import *
 
 pygame.init()
-width = 1920
-height = 1080
+width = 1280
+height = 720
 screen = pygame.display.set_mode ( (width, height), pygame.RESIZABLE)
 
 # ff = ffmpy.FFmpeg(inputs={'pipe:0': '-f rawvideo -pix_fmt rgb24 -s:v 640x480'}, outputs={'pipe:1': '-v:c h264 -f mp4'})
@@ -48,7 +48,7 @@ def write_data():
         fdata = nc.recv()
         #print("Trying to write some data")
         if len(fdata) == 0:
-            print("Finished writing file")
+            #print("Finished writing file")
             ff.process.stdin.close()
             break;
         ff.process.stdin.write(fdata)
@@ -69,8 +69,8 @@ def read_data():
     global raw_image
     global q
     while(1):
-        # print("\t\tTrying to read some data")
-        _raw_image = ff.process.stdout.read(1920 * 1080 * 3)
+        #print("\t\tTrying to read some data")
+        _raw_image = ff.process.stdout.read(width * height * 3)
         #mutex.acquire()
         #raw_image = _raw_image
         #mutex.release()
@@ -83,9 +83,15 @@ def read_data():
 
 threading._start_new_thread(write_data, ())
 
+for i in range(125):
+    raw_image = ff.process.stdout.read(width * height * 3)
+
 threading._start_new_thread(read_data, ())
 
 done = False
+nread = 0
+image = numpy.zeros((width,height,3), dtype='uint8')
+
 while not done:
     #for i in range(10):
     #    mutex.acquite()
@@ -113,7 +119,7 @@ while not done:
     #mutex.release()
     #if len(image) == 0:
     #    continue
-    frame = image.reshape((1080,1920,3))
+    frame = image.reshape((height,width,3))
     #nread = nread + len(raw_image)
     #print("Read some data" + str(nread))
 

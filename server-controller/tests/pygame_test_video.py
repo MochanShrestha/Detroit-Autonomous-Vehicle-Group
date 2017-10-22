@@ -4,15 +4,15 @@ import cv2
 #from pygame.locals import *
 
 pygame.init()
-width = 400
-height = 300
+width = 1920
+height = 1080
 screen = pygame.display.set_mode ( (width, height), pygame.RESIZABLE)
 
-sample_image = cv2.imread("sample.jpg")
-sample_image = cv2.cvtColor(sample_image, cv2.COLOR_BGR2RGB)
-display_image = cv2.resize(sample_image, (400, 300))
+#sample_image = cv2.imread("sample.jpg")
+#sample_image = cv2.cvtColor(sample_image, cv2.COLOR_BGR2RGB)
+#display_image = cv2.resize(sample_image, (400, 300))
 
-vid = cv2.VideoCapture('sample.h264')
+vid = cv2.VideoCapture('log.h264')
 
 done = False
 
