@@ -23,7 +23,9 @@ while True:
     if (ret == False):
         break
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    display_image = cv2.resize(img, (infoObject.current_w, infoObject.current_h))
+
+    display_image = img
+    display_image = cv2.resize(img, (infoObject.current_w, infoObject.current_h), interpolation=cv2.INTER_NEAREST)
 
     screen.blit(pygame.image.frombuffer(display_image.tostring(), display_image.shape[1::-1], "RGB"), (0, 0))
     screen.blit(hwimg, (100,100))

@@ -91,6 +91,7 @@ threading._start_new_thread(read_data, ())
 done = False
 nread = 0
 image = numpy.zeros((width,height,3), dtype='uint8')
+
 while not done:
     #for i in range(10):
     #    mutex.acquite()
@@ -102,6 +103,10 @@ while not done:
     #mutex.acquire()
     #if len(raw_image) > 0:
         #print("GOt image")
+
+    if q.empty():
+        time.sleep(0.05)
+        continue
 
     raw_image = q.get()
     if len(raw_image) > 0:
