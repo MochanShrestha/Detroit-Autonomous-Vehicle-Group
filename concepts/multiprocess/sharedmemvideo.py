@@ -7,7 +7,8 @@ import time
 import numpy
 import multiprocessing
 
-from framesopencv import generate_frames
+#from framesopencv import generate_frames
+from framesffmpy import generate_frames_ffmpy
 
 
 if __name__ == '__main__':
@@ -23,7 +24,8 @@ if __name__ == '__main__':
     v = Value('i', 0)
     done_decoding = Value('i', 0)
     a = multiprocessing.RawArray(numpy.ctypeslib.ctypes.c_uint8, 1080*1920*3)
-    p = Process(target=generate_frames, args=(a,v, done_decoding))
+    #p = Process(target=generate_frames, args=(a,v, done_decoding))
+    p = Process(target=generate_frames_ffmpy, args=(a, v, done_decoding))
     p.start()
 
     frame_no = 0
@@ -38,7 +40,10 @@ if __name__ == '__main__':
         frame = numpy.frombuffer(a, numpy.ctypeslib.ctypes.c_uint8)
         frame.shape = (1080, 1920, 3)
 
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # OpenCV is the only one that decodes as BGR and has to be reversed
+        #img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        img = frame
         display_image = cv2.resize(img, (infoObject.current_w, infoObject.current_h), interpolation=cv2.INTER_NEAREST)
 
         screen.blit(pygame.image.frombuffer(display_image.tostring(), display_image.shape[1::-1], "RGB"), (0, 0))
