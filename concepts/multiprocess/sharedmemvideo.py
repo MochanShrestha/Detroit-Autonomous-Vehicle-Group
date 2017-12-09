@@ -8,7 +8,8 @@ import numpy
 import multiprocessing
 
 #from framesopencv import generate_frames
-from framesffmpy import generate_frames_ffmpy
+#from framesffmpy import generate_frames_ffmpy
+from framesffmpynclib import generate_frames_ffmpynclib
 
 
 if __name__ == '__main__':
@@ -25,7 +26,8 @@ if __name__ == '__main__':
     done_decoding = Value('i', 0)
     a = multiprocessing.RawArray(numpy.ctypeslib.ctypes.c_uint8, 1080*1920*3)
     #p = Process(target=generate_frames, args=(a,v, done_decoding))
-    p = Process(target=generate_frames_ffmpy, args=(a, v, done_decoding))
+    #p = Process(target=generate_frames_ffmpy, args=(a, v, done_decoding))
+    p = Process(target=generate_frames_ffmpynclib, args=(a, v, done_decoding))
     p.start()
 
     frame_no = 0
@@ -50,9 +52,9 @@ if __name__ == '__main__':
         screen.blit(hwimg, (100,100))
 
         pygame.display.flip()
+        frame_no = v.value
 
-        print ("Showing frame " + str(frame_no))
-        frame_no = frame_no + 1
+        #print ("Showing frame " + str(frame_no))
 
         if done_decoding.value == 1:
             break

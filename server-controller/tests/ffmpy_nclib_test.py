@@ -13,8 +13,8 @@ import queue
 from pygame.locals import *
 
 pygame.init()
-width = 1280
-height = 720
+width = 1920
+height = 1080
 screen = pygame.display.set_mode ( (width, height), pygame.RESIZABLE)
 
 # ff = ffmpy.FFmpeg(inputs={'pipe:0': '-f rawvideo -pix_fmt rgb24 -s:v 640x480'}, outputs={'pipe:1': '-v:c h264 -f mp4'})

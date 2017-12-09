@@ -4,6 +4,10 @@ import subprocess
 import errno
 import threading
 import numpy
+import multiprocessing
+
+def test_something():
+    print("\t\t\t Ran the test function")
 
 def generate_frames_ffmpy(a,v, done_decoding):
     # Setup the ffmpy library to decode frames
@@ -22,27 +26,32 @@ def generate_frames_ffmpy(a,v, done_decoding):
         else:
             raise
 
-    samplefile = open('sample.h264', 'rb')
-
     def write_data():
+        samplefile = open('sample.h264', 'rb')
+
         while (1):
-            print("Trying to write some data")
-            fdata = samplefile.read(1920 * 1080)
+            #print("Trying to write some data")
+            fdata = samplefile.read(1000000)
             if len(fdata) == 0:
                 print("Finished writing file")
                 ff.process.stdin.close()
+                samplefile.close()
                 break;
+                
             ff.process.stdin.write(fdata)
-            print("Wrote some data")
+            #print("Wrote some data")
 
     threading._start_new_thread(write_data, ())
+    #p = multiprocessing.Process(target=test_something, args=())
+    #p.start()
 
     while(1):
-        print("Trying to read some data")
+        #print("Trying to read some data")
         raw_image = ff.process.stdout.read(1920 * 1080 * 3)
-        print("Read some data")
+        #print("Read some data")
         if len(raw_image) == 0:
             done_decoding.value = 1
+            print("End of decoding")
             break
         image = numpy.fromstring(raw_image, dtype='uint8')
         frame = image.reshape((1080,1920,3))
